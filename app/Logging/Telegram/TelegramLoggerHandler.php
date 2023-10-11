@@ -12,6 +12,7 @@ class TelegramLoggerHandler extends AbstractProcessingHandler
 	protected int $chatId;
 
 	protected string $token;
+	
 
 	public function __construct($config)
 	{
