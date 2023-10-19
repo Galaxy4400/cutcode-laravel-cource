@@ -17,7 +17,7 @@ trait HasSlug
 
 	protected function generateSlug(int $level = 0): string
 	{
-		$suffix = $level ? '-'.$level : '';
+		$suffix = $level ? "-{$level}" : "";
 
 		$slug = str($this->{self::slugFrom()})
 			->append($suffix)
