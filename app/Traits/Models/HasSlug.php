@@ -6,35 +6,35 @@ use Illuminate\Database\Eloquent\Model;
 
 trait HasSlug
 {
-
+	
 	protected static function bootHasSlug(): void
 	{
-		static::creating(function (Model $item) {
-			$item->slug = $item->slug ?? self::generateSlug($item);
+		static::creating(function (Model $model) {
+			$model->slug = $model->slug ?? $model->generateSlug();
 		});
 	}
 
 
-	protected static function generateSlug(Model $item, int $level = 0): string
+	protected function generateSlug(int $level = 0): string
 	{
 		$suffix = $level ? '-'.$level : '';
 
-		$slug = str($item->{self::slugFrom()})->append($suffix)->slug();
+		$slug = str($this->{self::slugFrom()})
+			->append($suffix)
+			->slug();
 
-		$modelName = get_class($item);
-
-		if (self::isSlugExist($slug, $modelName) && $level < 10) {
-			$slug = self::generateSlug($item, $level+1);
+		if ($this->isSlugExist($slug)) {
+			$slug = $this->generateSlug($level + 1);
 		}
 
 		return $slug;
 	}
 
 
-	protected static function isSlugExist($slug, $modelName): bool
+	protected function isSlugExist(string $slug): bool
 	{
-		$object = $modelName::where('slug', $slug)->first();
-		
+		$object = $this->where('slug', $slug)->first();
+
 		return $object ? true : false;
 	}
 
