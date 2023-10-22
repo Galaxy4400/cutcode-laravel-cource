@@ -24,7 +24,7 @@ class ProductFactory extends Factory
 			// 	storage_path('/app/public/images/products'),
 			// 	false
 			// ),
-			'thumbnail' => $this->faker->loremflickr('test'),
+			'thumbnail' => $this->faker->loremflickr('images/products', 500, 500, false),
 			'price' => $this->faker->numberBetween(1000, 1000000),
 			'brand_id' => Brand::query()->inRandomOrder()->value('id'),
 		];
