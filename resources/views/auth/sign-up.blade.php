@@ -3,23 +3,21 @@
 @section('title', 'Регистрация')
 
 @section('content')
-	<x-forms.auth-forms title="Регистрация" action="" method="post">
+	<x-forms.auth-forms title="Регистрация" action="{{ route('store') }}" method="post">
 
-		<x-slot:main>
-			<x-forms.text-input name="name" value="{{ old('name') }}" placeholder="Имя" required="true" :isError="$errors->has('name')" />
-			@error('name')<x-forms.error>{{ $message }}</x-forms.error>@enderror
+		<x-forms.text-input name="name" value="{{ old('name') }}" placeholder="Имя" required="true" :isError="$errors->has('name')" />
+		@error('name')<x-forms.error>{{ $message }}</x-forms.error>@enderror
 
-			<x-forms.text-input name="email" value="{{ old('email') }}" type="email" placeholder="E-mail" required="true" :isError="$errors->has('email')" />
-			@error('email')<x-forms.error>{{ $message }}</x-forms.error>@enderror
-	
-			<x-forms.text-input name="password" type="password" placeholder="Пароль" required="true" :isError="$errors->has('password')" />
-			@error('password')<x-forms.error>{{ $message }}</x-forms.error>@enderror
+		<x-forms.text-input name="email" value="{{ old('email') }}" type="email" placeholder="E-mail" required="true" :isError="$errors->has('email')" />
+		@error('email')<x-forms.error>{{ $message }}</x-forms.error>@enderror
 
-			<x-forms.text-input name="password_confirmation" type="password" placeholder="Повторите пароль" required="true" :isError="$errors->has('password_confirmation')" />
-			@error('password_confirmation')<x-forms.error>{{ $message }}</x-forms.error>@enderror
-	
-			<x-forms.primary-button>Зарегистрироваться</x-forms.primary-button>
-		</x-slot:main>
+		<x-forms.text-input name="password" type="password" placeholder="Пароль" required="true" :isError="$errors->has('password')" />
+		@error('password')<x-forms.error>{{ $message }}</x-forms.error>@enderror
+
+		<x-forms.text-input name="password_confirmation" type="password" placeholder="Повторите пароль" required="true" :isError="$errors->has('password_confirmation')" />
+		@error('password_confirmation')<x-forms.error>{{ $message }}</x-forms.error>@enderror
+
+		<x-forms.primary-button>Зарегистрироваться</x-forms.primary-button>
 
 		<x-slot:socialAuth>
 			<ul class="space-y-3 my-2">

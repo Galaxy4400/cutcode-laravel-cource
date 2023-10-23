@@ -5,16 +5,14 @@
 @section('content')
 	<x-forms.auth-forms title="Вход в аккаунт" action="{{ route('signIn') }}" method="post">
 
-		<x-slot:main>
-			<x-forms.text-input name="email" type="email" value="{{ old('email') }}" placeholder="E-mail" required="true" :isError="$errors->has('email')" />
-			@error('email')
-				<x-forms.error>{{ $message }}</x-forms.error>
-			@enderror
-	
-			<x-forms.text-input name="password" type="password" placeholder="Пароль" required="true" :isError="$errors->has('password')" />
-	
-			<x-forms.primary-button>Войти</x-forms.primary-button>
-		</x-slot:main>
+		<x-forms.text-input name="email" type="email" value="{{ old('email') }}" placeholder="E-mail" required="true" :isError="$errors->has('email')" />
+		@error('email')
+			<x-forms.error>{{ $message }}</x-forms.error>
+		@enderror
+
+		<x-forms.text-input name="password" type="password" placeholder="Пароль" required="true" :isError="$errors->has('password')" />
+
+		<x-forms.primary-button>Войти</x-forms.primary-button>
 
 		<x-slot:socialAuth>
 			<ul class="space-y-3 my-2">
@@ -31,7 +29,7 @@
 
 		<x-slot:buttons>
 			<div class="space-y-3 mt-5">
-				<div class="text-xxs md:text-xs"><a href="#" class="text-white hover:text-white/70 font-bold">Забыли пароль?</a></div>
+				<div class="text-xxs md:text-xs"><a href="{{ route('password.request') }}" class="text-white hover:text-white/70 font-bold">Забыли пароль?</a></div>
 				<div class="text-xxs md:text-xs"><a href="{{ route('signUp') }}" class="text-white hover:text-white/70 font-bold">Регистрация</a></div>
 			</div>
 		</x-slot:buttons>

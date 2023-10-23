@@ -3,16 +3,16 @@
 @section('title', 'Забыли пароль')
 
 @section('content')
-	<x-forms.auth-forms title="Забыли пароль" action="" method="post">
+	<x-forms.auth-forms title="Забыли пароль" action="{{ route('password.email') }}" method="post">
 
-		<x-slot:main>
-			<x-forms.text-input name="email" type="email" placeholder="E-mail" required="true" :isError="$errors->has('email')" />
-			@error('email')
-				<x-forms.error>{{ $message }}</x-forms.error>
-			@enderror
-	
-			<x-forms.primary-button>Отправить</x-forms.primary-button>
-		</x-slot:main>
+		<x-forms.text-input name="email" type="email" placeholder="E-mail" required="true" :isError="$errors->has('email')" />
+		@error('email')
+			<x-forms.error>{{ $message }}</x-forms.error>
+		@enderror
+
+		<x-forms.primary-button>Отправить</x-forms.primary-button>
+
+		<x-slot:socialAuth></x-slot:socialAuth>
 
 		<x-slot:buttons>
 			<div class="space-y-3 mt-5">
