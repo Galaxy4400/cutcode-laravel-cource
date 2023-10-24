@@ -10,6 +10,7 @@ use Illuminate\Contracts\View\Factory;
 use App\Http\Requests\SignInFormRequest;
 use App\Http\Requests\SignUpFormRequest;
 use Illuminate\Support\Facades\Password;
+use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\ResetPasswordFormRequest;
 use App\Http\Requests\ForgotPasswordFormRequest;
@@ -114,5 +115,29 @@ class AuthController extends Controller
 		return $status === Password::PASSWORD_RESET
 			? redirect()->route('login')->with('status', __($status))
 			: back()->withErrors(['email' => [__($status)]]);
+	}
+
+
+	public function github(): mixed
+	{
+		return Socialite::driver('github')->redirect();
+	}
+
+
+	public function githubCallback()
+	{
+		$githubUser = Socialite::driver('github')->user();
+
+		$user = User::updateOrCreate([
+			'github_id' => $githubUser->id,
+		], [
+			'name' => $githubUser->name,
+			'email' => $githubUser->email,
+			'password' => bcrypt(str()->random(20)),
+		]);
+
+		auth()->login($user);
+
+		return redirect()->intended(route('home'));
 	}
 }

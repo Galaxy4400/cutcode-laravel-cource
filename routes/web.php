@@ -4,16 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 
 Route::controller(AuthController::class)->group(function () {
@@ -32,6 +23,10 @@ Route::controller(AuthController::class)->group(function () {
 	Route::get('/reset-password/{token}', 'reset')->middleware('guest')->name('password.reset');
 
 	Route::post('/reset-password', 'resetPassword')->middleware('guest')->name('password.update');
+
+	Route::get('/auth/socialite/github', 'github')->name('socialite.github');
+
+	Route::get('/auth/socialite/gighub/callback', 'githubCallback')->name('socialite.github.callback');
 });
 
 
