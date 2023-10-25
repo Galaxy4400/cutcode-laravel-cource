@@ -5,13 +5,12 @@ namespace App\Providers;
 use App\Http\Kernel;
 use Carbon\CarbonInterval;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Connection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Events\QueryExecuted;
 
 class AppServiceProvider extends ServiceProvider
 {
+
 	public function boot(): void
 	{
 		Model::shouldBeStrict(!app()->isProduction());
