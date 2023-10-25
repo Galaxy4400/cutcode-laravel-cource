@@ -10,8 +10,14 @@ trait HasSlug
 	protected static function bootHasSlug(): void
 	{
 		static::creating(function (Model $model) {
-			$model->slug = $model->slug ?? $model->generateSlug();
+			$model->makeSlug();
 		});
+	}
+
+
+	protected function makeSlug(): void
+	{
+		$this->{self::slugColumn()} = $this->{self::slugColumn()} ?? $this->generateSlug();
 	}
 
 
@@ -33,15 +39,19 @@ trait HasSlug
 
 	protected function isSlugExist(string $slug): bool
 	{
-		$object = $this->where('slug', $slug)->first();
-
-		return $object ? true : false;
+		return $this->where(self::slugColumn(), $slug)->exists();
 	}
 
 
 	public static function slugFrom()
 	{
 		return 'title';
+	}
+
+
+	public static function slugColumn()
+	{
+		return 'slug';
 	}
 
 }
