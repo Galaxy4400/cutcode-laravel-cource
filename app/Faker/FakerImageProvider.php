@@ -10,7 +10,7 @@ class FakerImageProvider extends Base
 	public const BASE_URL = 'https://loremflickr.com/';
 
 	
-	public static function loremflickr(string $dir = null, int $width = 500, int $height = 500, bool $fullPath = true, $format = 'jpg'): string
+	public function loremflickr(string $dir = null, int $width = 500, int $height = 500, bool $fullPath = false, $format = 'jpg'): string
 	{
 		$dir = null === $dir ? sys_get_temp_dir() : $dir;
 
@@ -24,5 +24,21 @@ class FakerImageProvider extends Base
 		);
 
 		return $fullPath ? $filepath : $filename;
+	}
+
+
+	public function fixturesImage(string $fixturesDir, string $storageDir, bool $fullPath = false): string
+	{
+		if (!Storage::exists($storageDir)) {
+			Storage::makeDirectory($storageDir);
+		}
+
+		$file = $this->generator->file(
+			base_path('/tests/Fixtures/images/' . $fixturesDir),
+			Storage::path($storageDir),
+			false
+		);
+
+		return $fullPath ? '/storage/' . trim($storageDir, '/') . '/' . $file : $file;
 	}
 }
