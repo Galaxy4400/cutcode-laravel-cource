@@ -15,6 +15,7 @@ use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\ResetPasswordFormRequest;
 use App\Http\Requests\ForgotPasswordFormRequest;
 
+
 class AuthController extends Controller
 {
 	public function index(): View|Factory

@@ -11,15 +11,18 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-	/**
-	 * Seed the application's database.
-	 */
 	public function run(): void
 	{
 		Brand::factory(20)->create();
 
+		$categories = Category::factory(5)->create();
+
 		Product::factory(20)
-			->has(Category::factory(rand(1, 3)))
-			->create();
+			->create()
+			->each(
+				fn (Product $product) => $product
+					->categories()
+					->sync($categories->random(rand(1, 5)))
+			);
 	}
 }
