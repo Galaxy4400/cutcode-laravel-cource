@@ -11,13 +11,14 @@
 </head>
 
 <body class="antialiased">
-	@if (session()->has('message'))
-		{{ session('message') }}
+	@if ($flashMessage = flash()->get())
+		<div class="{{ $flashMessage->class() }} p-5">
+			{{ $flashMessage->message() }}
+		</div>
 	@endif
 
 	<main class="md:min-h-screen md:flex md:items-center md:justify-center py-16 lg:py-20">
 		<div class="container">
-
 
 			<div class="text-center">
 				<a href="{{ route('home') }}" class="inline-block" rel="home">

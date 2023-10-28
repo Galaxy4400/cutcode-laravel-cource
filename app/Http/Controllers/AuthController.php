@@ -18,7 +18,7 @@ use App\Http\Requests\ForgotPasswordFormRequest;
 
 class AuthController extends Controller
 {
-	public function index(): View|Factory
+	public function index(): View|Factory|RedirectResponse
 	{
 		return view('auth.index');
 	}
@@ -33,6 +33,12 @@ class AuthController extends Controller
 	public function forgot(): View|Factory
 	{
 		return view('auth.forgot-password');
+	}
+
+	
+	public function reset(string $token): View|Factory
+	{
+		return view('auth.reset-password', compact('token'));
 	}
 
 
@@ -86,16 +92,15 @@ class AuthController extends Controller
 			$request->only('email')
 		);
 
-		return $status === Password::RESET_LINK_SENT
-			? back()->with(['message' => __($status)])
-			: back()->withErrors(['email' => __($status)]);
+		if ($status === Password::RESET_LINK_SENT) {
+			flash()->info(__($status));
+
+			return back();
+		}
+
+		return back()->withErrors(['email' => __($status)]);
 	}
 
-
-	public function reset(string $token): View|Factory
-	{
-		return view('auth.reset-password', compact('token'));
-	}
 
 
 	public function resetPassword(ResetPasswordFormRequest $request): RedirectResponse
@@ -113,9 +118,13 @@ class AuthController extends Controller
 			}
 		);
 
-		return $status === Password::PASSWORD_RESET
-			? redirect()->route('login')->with('status', __($status))
-			: back()->withErrors(['email' => [__($status)]]);
+		if ($status === Password::PASSWORD_RESET) {
+			flash()->info(__($status));
+
+			return redirect()->route('login');
+		}
+
+		back()->withErrors(['email' => [__($status)]]);
 	}
 
 

@@ -11,7 +11,11 @@
 </head>
 
 <body class="antialiased">
-	
+	@if (session()->has('message'))
+		{{ session('message') }}
+	@endif
+
+	@yield('content')
 </body>
 
 </html>
