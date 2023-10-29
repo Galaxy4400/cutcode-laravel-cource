@@ -4,7 +4,7 @@ use Monolog\Handler\NullHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\SyslogUdpHandler;
 use Monolog\Processor\PsrLogMessageProcessor;
-use App\Logging\Telegram\TelegramLoggerFactory;
+use Supports\Logging\Telegram\TelegramLoggerFactory;
 
 return [
 

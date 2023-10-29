@@ -3,7 +3,7 @@
 @section('title', 'Восстановление паролья')
 
 @section('content')
-	<x-forms.auth-forms title="Восстановление паролья" action="{{ route('password.update') }}" method="post">
+	<x-forms.auth-forms title="Восстановление паролья" action="{{ route('password.reset.handle') }}" method="post">
 
 		<input type="hidden" name="token" value="{{ $token }}">
 
