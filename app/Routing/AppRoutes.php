@@ -8,9 +8,9 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Contracts\Routing\Registrar;
 
 
-class AppRegistrar implements RouteRegistrar
+class AppRoutes implements RouteRegistrar
 {
-	public function map(Registrar $registrar): void
+	public function map(Registrar $router): void
 	{
 		Route::middleware('web')->group(function() {
 			Route::get('/', HomeController::class)->name('home');

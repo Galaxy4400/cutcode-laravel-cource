@@ -12,9 +12,9 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 
 
-class AuthRegistrar implements RouteRegistrar
+class AuthRoutes implements RouteRegistrar
 {
-	public function map(Registrar $registrar): void
+	public function map(Registrar $router): void
 	{
 		Route::middleware('web')->group(function() {
 
@@ -44,7 +44,6 @@ class AuthRegistrar implements RouteRegistrar
 				Route::get('/auth/socialite/{driver}/callback', 'callback')->name('socialite.callback');
 			});
 			
-
 		});
 	}
 }
