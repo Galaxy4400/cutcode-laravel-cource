@@ -30,11 +30,9 @@ class SignInControllerTest extends TestCase
 	{
 		$password = '1234567890';
 
-		$user = UserFactory::new()->create(
-			[
-				'password' => bcrypt($password),
-			]
-		);
+		$user = UserFactory::new()->create([
+			'password' => bcrypt($password),
+		]);
 
 		$request = [
 			'email' => $user->email,
