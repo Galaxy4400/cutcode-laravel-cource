@@ -18,11 +18,13 @@ class SignUpController extends Controller
 
 	public function handle(SignUpFormRequest $request, RegisterNewUserContract $registerNewUserAction): RedirectResponse
 	{
-		$registerNewUserAction(
+		$user = $registerNewUserAction(
 			$request->get('name'),
 			$request->get('email'),
 			$request->get('password')
 		);
+
+		auth()->login($user);
 
 		$request->session()->regenerate();
 
