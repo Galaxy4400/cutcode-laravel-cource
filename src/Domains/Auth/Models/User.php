@@ -3,6 +3,8 @@
 namespace Domains\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\Models\HasThumbnail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Database\Query\Builder;
@@ -16,7 +18,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class User extends Authenticatable
 {
-	use HasApiTokens, HasFactory, Notifiable;
+	use HasApiTokens;
+	use HasFactory;
+	use Notifiable;
+	use HasThumbnail;
 
 
 	/**
@@ -57,5 +62,11 @@ class User extends Authenticatable
 		return Attribute::make(
 			get: fn () => "https://ui-avatars.com/api/?name=" . $this->name . "&background=random",
 		);
+	}
+
+
+	protected function thumbnailDir(): string
+	{
+		return 'products';
 	}
 }

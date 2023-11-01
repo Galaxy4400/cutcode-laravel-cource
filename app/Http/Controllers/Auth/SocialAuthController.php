@@ -3,10 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use Domains\Auth\Models\User;
+use PhpParser\Node\Stmt\TryCatch;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
-use PhpParser\Node\Stmt\TryCatch;
 
 class SocialAuthController extends Controller
 {
