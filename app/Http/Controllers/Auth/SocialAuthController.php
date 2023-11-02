@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use Domains\Auth\Models\User;
-use PhpParser\Node\Stmt\TryCatch;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
@@ -30,10 +29,10 @@ class SocialAuthController extends Controller
 		$githubUser = Socialite::driver($driver)->user();
 
 		$user = User::updateOrCreate([
-			$driver . '_id' => $githubUser->id,
+			$driver . '_id' => $githubUser->getId(),
 		], [
-			'name' => $githubUser->name,
-			'email' => $githubUser->email,
+			'name' => $githubUser->getName(),
+			'email' => $githubUser->getEmail(),
 			'password' => bcrypt(str()->random(20)),
 		]);
 

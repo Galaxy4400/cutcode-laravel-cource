@@ -79,7 +79,7 @@ class SignUpControllerTest extends TestCase
 		$this->request['password'] = '1234567890';
 		$this->request['password_confirmation'] = '0987654321';
 
-		$this->request()->assertInvalid(['password']);
+		$this->request()->assertInvalid('password');
 	}
 
 
@@ -113,7 +113,7 @@ class SignUpControllerTest extends TestCase
 			'email' => $this->request['email']
 		]);
 
-		$this->request()->assertInvalid(['email']);
+		$this->request()->assertInvalid('email');
 	}
 
 
