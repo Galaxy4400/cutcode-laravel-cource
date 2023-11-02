@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Contracts\View\Factory;
 use App\Http\Requests\SignUpFormRequest;
 use Domains\Auth\Contracts\RegisterNewUserContract;
+use Domains\Auth\DTOs\NewUserDTO;
 
 class SignUpController extends Controller
 {
@@ -18,11 +19,7 @@ class SignUpController extends Controller
 
 	public function handle(SignUpFormRequest $request, RegisterNewUserContract $registerNewUserAction): RedirectResponse
 	{
-		$user = $registerNewUserAction(
-			$request->get('name'),
-			$request->get('email'),
-			$request->get('password')
-		);
+		$user = $registerNewUserAction(NewUserDTO::fromRequest($request));
 
 		auth()->login($user);
 

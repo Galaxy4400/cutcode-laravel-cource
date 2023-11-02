@@ -3,17 +3,18 @@
 namespace Domains\Auth\Actions;
 
 use Domains\Auth\Contracts\RegisterNewUserContract;
+use Domains\Auth\DTOs\NewUserDTO;
 use Domains\Auth\Models\User;
 use Illuminate\Auth\Events\Registered;
 
 class RegisterNewUserAction implements RegisterNewUserContract
 {
-	public function __invoke(string $name, string $email, string $password): User
+	public function __invoke(NewUserDTO $data): User
 	{
 		$user = User::query()->create([
-			'name' => $name,
-			'email' => $email,
-			'password' => bcrypt($password),
+			'name' => $data->name,
+			'email' => $data->email,
+			'password' => bcrypt($data->password),
 		]);
 
 		event(new Registered($user));

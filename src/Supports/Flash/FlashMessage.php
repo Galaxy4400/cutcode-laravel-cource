@@ -4,15 +4,12 @@ namespace Supports\Flash;
 
 class FlashMessage
 {
-	protected $message;
 
-	protected $class;
-
-
-	public function __construct(string $message, string $class)
+	public function __construct(
+		protected string $message, 
+		protected string $class
+	)
 	{
-		$this->message = $message;
-		$this->class = $class;
 	}
 
 	
