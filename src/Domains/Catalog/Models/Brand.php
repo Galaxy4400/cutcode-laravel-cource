@@ -2,6 +2,7 @@
 
 namespace Domains\Catalog\Models;
 
+use Domains\Catalog\QueryBuilders\BrandQueryBuilder;
 use Supports\Traits\Models\HasSlug;
 use Supports\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
@@ -9,6 +10,10 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
+
+/**
+ * @method static Brand|BrandQueryBuilder query()
+ */
 class Brand extends Model
 {
 	use HasFactory;
@@ -22,6 +27,12 @@ class Brand extends Model
 		'on_home_page',
 		'sorting',
 	];
+
+
+	public function newEloquentBuilder($query)
+	{
+		return new BrandQueryBuilder($query);
+	}
 
 
 	public function scopeHomePage(Builder $query)

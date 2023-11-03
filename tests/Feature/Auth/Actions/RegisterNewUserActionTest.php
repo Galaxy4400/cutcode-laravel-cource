@@ -13,12 +13,14 @@ class RegisterNewUserActionTest extends TestCase
 
 	public function test_success_user_created()
 	{
-		$this->assertDatabaseMissing('users', ['email' => 'test@email.ru']);
+		$email = 'test@email.ru';
+
+		$this->assertDatabaseMissing('users', ['email' => $email]);
 
 		$action = app(RegisterNewUserContract::class);
 
-		$action(NewUserDTO::make('test', 'test@email.ru', '1234567890'));
+		$action(NewUserDTO::make('test', $email, '1234567890'));
 
-		$this->assertDatabaseHas('users', ['email' => 'test@email.ru']);
+		$this->assertDatabaseHas('users', ['email' => $email]);
 	}
 }
