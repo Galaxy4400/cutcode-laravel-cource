@@ -1,6 +1,6 @@
 <?php
 
-namespace Domains\Auth\Routing;
+namespace App\Routing;
 
 use App\Contracts\RouteRegistrar;
 use Illuminate\Support\Facades\Route;

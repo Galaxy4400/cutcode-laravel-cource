@@ -4,7 +4,7 @@ namespace Domains\Auth\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
-use App\Traits\Models\HasThumbnail;
+use Supports\Traits\Models\HasThumbnail;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Database\Query\Builder;

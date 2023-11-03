@@ -6,7 +6,7 @@ use RuntimeException;
 use Illuminate\Http\Request;
 use App\Routing\AppRoutes;
 use App\Contracts\RouteRegistrar;
-use Domains\Auth\Routing\AuthRoutes;
+use App\Routing\AuthRoutes;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\RateLimiter;

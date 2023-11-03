@@ -1,9 +1,8 @@
 <?php
 
-namespace App\Models;
+namespace Domains\Catalog\Models;
 
-use App\Traits\Models\HasSlug;
-use App\Traits\Models\HasThumbnail;
+use Supports\Traits\Models\HasSlug;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
