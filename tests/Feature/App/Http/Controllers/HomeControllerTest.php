@@ -2,12 +2,13 @@
 
 namespace Tests\Feature\App\Http\Controllers;
 
-use App\Http\Controllers\HomeController;
-use Database\Factories\BrandFactory;
-use Database\Factories\CategoryFactory;
-use Database\Factories\ProductFactory;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Database\Factories\BrandFactory;
+use Database\Factories\ProductFactory;
+use Database\Factories\CategoryFactory;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Controllers\HomeController;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
 class HomeControllerTest extends TestCase
@@ -17,6 +18,8 @@ class HomeControllerTest extends TestCase
 
 	public function test_home_page_success(): void
 	{
+		Storage::fake();
+
 		CategoryFactory::new()->count(5)
 			->create([
 				'on_home_page' => true,

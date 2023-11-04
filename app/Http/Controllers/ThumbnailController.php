@@ -18,6 +18,8 @@ class ThumbnailController extends Controller
 		$newDirPath = "{$dir}/{$method}/{$size}";
 		$resultPath = "{$newDirPath}/{$file}";
 
+		abort_if(!$storage->exists($realPath), 403, 'The specified file does not exist');
+
 		if (!$storage->exists($newDirPath)) {
 			$storage->makeDirectory($newDirPath);
 		}
