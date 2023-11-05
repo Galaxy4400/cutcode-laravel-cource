@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use Domains\Catalog\Models\Brand;
 use App\Models\Product;
-use Domains\Catalog\Models\Category;
 use Domains\Catalog\ViewModels\CategoryViewModel;
 use Illuminate\Contracts\View\View;
 use Illuminate\Contracts\View\Factory;

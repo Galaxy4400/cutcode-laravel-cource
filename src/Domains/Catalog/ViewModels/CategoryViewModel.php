@@ -1,19 +1,13 @@
 <?php
 
-namespace Domains\Catalog\ViewModels;
+namespace App\ViewModels;
 
-use Domains\Catalog\Models\Category;
-use Illuminate\Database\Eloquent\Collection;
-use Supports\Traits\Makeable;
+use Spatie\ViewModels\ViewModel;
 
-class CategoryViewModel
+class CategoryViewModel extends ViewModel
 {
-	use Makeable;
-
-
-	public function homePage(): Collection|array
+	public function __construct()
 	{
-		return Category::homePage()->get();
+		//
 	}
-
 }
