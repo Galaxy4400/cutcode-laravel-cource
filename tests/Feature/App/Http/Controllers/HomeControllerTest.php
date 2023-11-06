@@ -18,8 +18,6 @@ class HomeControllerTest extends TestCase
 
 	public function test_home_page_success(): void
 	{
-		Storage::fake();
-
 		CategoryFactory::new()->count(5)
 			->create([
 				'on_home_page' => true,

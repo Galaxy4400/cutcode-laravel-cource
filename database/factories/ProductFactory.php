@@ -19,7 +19,7 @@ class ProductFactory extends Factory
 	{
 		return [
 			'title' => ucfirst($this->faker->words(2, true)),
-			'thumbnail' => $this->faker->fixturesImage('products', 'images/products'),
+			'thumbnail' => $this->faker->fixturesImage('products'),
 			// 'thumbnail' => $this->faker->loremflickr('images/products', 500, 500),
 			'price' => $this->faker->numberBetween(1000, 1000000),
 			'brand_id' => Brand::query()->inRandomOrder()->value('id'),
