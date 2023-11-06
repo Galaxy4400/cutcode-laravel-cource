@@ -2,11 +2,12 @@
 
 namespace Domains\Catalog\Models;
 
-use Domains\Catalog\QueryBuilders\BrandQueryBuilder;
+use App\Models\Product;
 use Supports\Traits\Models\HasSlug;
-use Supports\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Model;
+use Supports\Traits\Models\HasThumbnail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Domains\Catalog\QueryBuilders\BrandQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 

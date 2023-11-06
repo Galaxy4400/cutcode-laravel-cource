@@ -2,11 +2,12 @@
 
 namespace Domains\Catalog\Models;
 
-use Domains\Catalog\Collections\CategoryCollection;
-use Domains\Catalog\QueryBuilders\CategoryQueryBuilder;
+use App\Models\Product;
 use Supports\Traits\Models\HasSlug;
 use Illuminate\Database\Eloquent\Model;
+use Domains\Catalog\Collections\CategoryCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Domains\Catalog\QueryBuilders\CategoryQueryBuilder;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 

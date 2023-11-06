@@ -3,10 +3,11 @@
 namespace App\Providers;
 
 use RuntimeException;
-use Illuminate\Http\Request;
 use App\Routing\AppRoutes;
-use App\Contracts\RouteRegistrar;
 use App\Routing\AuthRoutes;
+use Illuminate\Http\Request;
+use App\Routing\CatalogRoutes;
+use App\Contracts\RouteRegistrar;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Routing\Registrar;
 use Illuminate\Support\Facades\RateLimiter;
@@ -28,6 +29,7 @@ class RouteServiceProvider extends ServiceProvider
 	protected array $registrars = [
 		AppRoutes::class,
 		AuthRoutes::class,
+		CatalogRoutes::class,
 	];
 
 
