@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Supports\Casts\PriceCast;
+use Domains\Catalog\Models\Brand;
 use Supports\Traits\Models\HasSlug;
 use Domains\Catalog\Models\Category;
 use Illuminate\Database\Eloquent\Model;
@@ -37,9 +38,38 @@ class Product extends Model
 
 	public function scopeHomePage(Builder $query)
 	{
-		return $query->where('on_home_page', true)
+		$query->where('on_home_page', true)
 			->orderBy('sorting')
 			->limit(6);
+	}
+
+
+	public function scopeFiltered(Builder $query)
+	{
+		$query
+			->when(request('filters.brands'), function (Builder $query) {
+				$query->whereIn('brand_id', request('filters.brands'));
+			})
+			->when(request('filters.price'), function (Builder $query) {
+				$query->whereBetween('price', [
+					request('filters.price.from', 0) * 100,
+					request('filters.price.to', 100000) * 100
+				]);
+			});
+	}
+
+
+	public function scopeSorted(Builder $query)
+	{
+		$query->when(request('sort'), function (Builder $query) {
+			$column = request()->str('sort');
+			
+			if ($column->contains(['price', 'title'])) {
+				$direction = $column->contains('-') ? 'DESC' : 'ASC';
+
+				$query->orderBy((string) $column->remove('-'), $direction);
+			}
+		});
 	}
 
 
