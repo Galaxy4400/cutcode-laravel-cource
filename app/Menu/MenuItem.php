@@ -4,17 +4,19 @@ namespace App\Menu;
 
 use Supports\Traits\Makeable;
 
+
+
+/**
+ * @method static static make(string $label, string $link)
+ */
 class MenuItem
 {
 	use Makeable;
 
-
 	public function __construct(
-		protected string $link,
 		protected string $label,
-	)
-	{
-	}
+		protected string $link,
+	){}
 
 	public function link()
 	{

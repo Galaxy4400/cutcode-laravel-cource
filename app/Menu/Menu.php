@@ -2,10 +2,17 @@
 
 namespace App\Menu;
 
-use Illuminate\Support\Collection;
+use Countable;
+use Traversable;
+use IteratorAggregate;
 use Supports\Traits\Makeable;
+use Illuminate\Support\Collection;
 
-class Menu
+
+/**
+ * @method static static make(MenuItem ...$items)
+ */
+class Menu implements IteratorAggregate, Countable
 {
 	use Makeable;
 
@@ -45,7 +52,7 @@ class Menu
 	public function remove(MenuItem $item): self
 	{
 		$this->items = $this->all()
-			->filter(fn(MenuItem $current) => $item !== $current)
+			->filter(fn (MenuItem $current) => $item !== $current)
 			->toArray();
 
 		return $this;
@@ -55,10 +62,21 @@ class Menu
 	public function removeByLink(string $link): self
 	{
 		$this->items = $this->all()
-			->filter(fn(MenuItem $current) => $link !== $current->link())
+			->filter(fn (MenuItem $current) => $link !== $current->link())
 			->toArray();
 
 		return $this;
 	}
 
+
+	public function getIterator(): Traversable
+	{
+		return $this->all();
+	}
+
+
+	public function count(): int
+	{
+		return count($this->items);
+	}
 }
