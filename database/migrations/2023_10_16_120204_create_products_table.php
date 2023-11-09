@@ -14,12 +14,15 @@ return new class extends Migration
 			$table->id();
 			$table->string('slug')->unique();
 			$table->string('title');
+			$table->text('text')->nullable();
 			$table->string('thumbnail')->nullable();
 			$table->integer('price')->unsigned()->default(0);
 			$table->boolean('on_home_page')->default(false);
 			$table->integer('sorting')->default(0);
-			$table->foreignIdFor(Brand::class)->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
 			$table->timestamps();
+
+			$table->foreignIdFor(Brand::class)->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+			$table->fullText(['title', 'text']);
 		});
 	}
 

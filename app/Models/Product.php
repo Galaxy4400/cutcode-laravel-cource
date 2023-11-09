@@ -23,6 +23,7 @@ class Product extends Model
 	protected $fillable = [
 		'slug',
 		'title',
+		'text',
 		'brand_id',
 		'price',
 		'thumbnail',
@@ -41,6 +42,14 @@ class Product extends Model
 		$query->where('on_home_page', true)
 			->orderBy('sorting')
 			->limit(6);
+	}
+
+
+	public function scopeOfCategory(Builder $query, Category $category): void
+	{
+		$query->when($category->exists, function ($query) use ($category) {
+			$query->whereRelation('categories', 'categories.id', $category->id);
+		});
 	}
 
 
@@ -63,12 +72,20 @@ class Product extends Model
 	{
 		$query->when(request('sort'), function (Builder $query) {
 			$column = request()->str('sort');
-			
+
 			if ($column->contains(['price', 'title'])) {
 				$direction = $column->contains('-') ? 'DESC' : 'ASC';
 
 				$query->orderBy((string) $column->remove('-'), $direction);
 			}
+		});
+	}
+
+
+	public function scopeSearched(Builder $query)
+	{
+		$query->when(request('search'), function ($query) {
+			$query->whereFullText(['title', 'text'], request('search'));
 		});
 	}
 

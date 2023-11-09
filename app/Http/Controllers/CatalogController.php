@@ -6,7 +6,6 @@ use App\Models\Product;
 use Domains\Catalog\Models\Brand;
 use Illuminate\Contracts\View\View;
 use Domains\Catalog\Models\Category;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Contracts\View\Factory;
 
 
@@ -18,17 +17,16 @@ class CatalogController extends Controller
 			->select(['id', 'title'])
 			->has('products')
 			->get();
-			
+
 		$categories = Category::query()
 			->select(['id', 'title', 'slug'])
 			->has('products')
 			->get();
 			
 		$products = Product::query()
-			->select(['id', 'title', 'slug', 'price', 'thumbnail'])
-			->when($category->exists, function (Builder $query) use ($category) {
-				$query->whereRelation('categories', 'categories.id', '=', $category->id);
-			})
+			->select(['id', 'brand_id', 'title', 'slug', 'price', 'thumbnail'])
+			->ofCategory($category)
+			->searched()
 			->filtered()
 			->sorted()
 			->paginate(6);
