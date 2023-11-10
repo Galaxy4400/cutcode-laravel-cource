@@ -55,16 +55,9 @@ class Product extends Model
 
 	public function scopeFiltered(Builder $query)
 	{
-		$query
-			->when(request('filters.brands'), function (Builder $query) {
-				$query->whereIn('brand_id', request('filters.brands'));
-			})
-			->when(request('filters.price'), function (Builder $query) {
-				$query->whereBetween('price', [
-					request('filters.price.from', 0) * 100,
-					request('filters.price.to', 100000) * 100
-				]);
-			});
+		foreach (filters() as $filter) {
+			$query = $filter->apply($query);
+		}
 	}
 
 

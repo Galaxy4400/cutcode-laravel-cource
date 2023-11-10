@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Providers;
+
+use App\Filters\PriceFilter;
+use Domains\Catalog\Filters\FilterManager;
+use Illuminate\Support\ServiceProvider;
+
+class CatalogServiceProvider extends ServiceProvider
+{
+	/**
+	 * Register services.
+	 */
+	public function register(): void
+	{
+		$this->app->singleton(FilterManager::class);
+	}
+
+	/**
+	 * Bootstrap services.
+	 */
+	public function boot(): void
+	{
+		app(FilterManager::class)->registerFilters([
+			new PriceFilter(),
+		]);
+	}
+}
