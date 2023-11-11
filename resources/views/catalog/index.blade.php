@@ -39,23 +39,8 @@
 					
 					<!-- Filter items -->
 					@foreach (filters() as $filter)
-						@include($filter->view(), ['filter' => $filter])
+						{!! $filter !!}
 					@endforeach
-
-					<!-- Filter item -->
-					<div>
-						<h5 class="mb-4 text-sm 2xl:text-md font-bold">Бренд</h5>
-
-						@foreach ($brands as $brand)
-							<div class="form-checkbox">
-								<input name="filters[brands][{{ $brand->id }}]" type="checkbox" value="{{ $brand->id }}" @checked(request('filters.brands.' . $brand->id)) id="filters-brands-{{ $brand->id }}">
-
-								<label for="filters-brands-{{ $brand->id }}" class="form-checkbox-label">
-									{{ $brand->title }}
-								</label>
-							</div>
-						@endforeach
-					</div>
 
 					<div>
 						<button type="submit" class="w-full !h-16 btn btn-pink">Поиск</button>

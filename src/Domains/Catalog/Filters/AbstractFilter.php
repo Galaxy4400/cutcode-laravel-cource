@@ -3,9 +3,9 @@
 namespace Domains\Catalog\Filters;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
+use Stringable;
 
-
-abstract class AbstractFilter
+abstract class AbstractFilter implements Stringable
 {
 	abstract public function title(): string;
 
@@ -16,6 +16,14 @@ abstract class AbstractFilter
 	abstract public function values(): array;
 
 	abstract public function view(): string;
+
+
+	public function __invoke(Builder $query, $next)
+	{
+		$this->apply($query);
+
+		$next($query);
+	}
 
 
 	public function requestValue(string $index = null, mixed $default = null): mixed
@@ -42,5 +50,11 @@ abstract class AbstractFilter
 		return str($this->name($index))
 			->slug('_')
 			->value();
+	}
+
+
+	public function __toString(): string
+	{
+		return view($this->view(), ['filter' => $this])->render();
 	}
 }

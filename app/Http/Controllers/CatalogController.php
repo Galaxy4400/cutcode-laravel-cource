@@ -13,11 +13,6 @@ class CatalogController extends Controller
 {
 	public function __invoke(?Category $category): View|Factory
 	{
-		$brands = Brand::query()
-			->select(['id', 'title'])
-			->has('products')
-			->get();
-
 		$categories = Category::query()
 			->select(['id', 'title', 'slug'])
 			->has('products')
@@ -31,7 +26,7 @@ class CatalogController extends Controller
 			->sorted()
 			->paginate(6);
 
-		return view('catalog.index', compact('brands', 'categories', 'products', 'category'));
+		return view('catalog.index', compact('categories', 'products', 'category'));
 
 	}
 }

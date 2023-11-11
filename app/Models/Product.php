@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Pipeline\Pipeline;
 
 class Product extends Model
 {
@@ -37,31 +38,39 @@ class Product extends Model
 	];
 
 
-	public function scopeHomePage(Builder $query)
+	public function scopeHomePage(Builder $query): Builder
 	{
 		$query->where('on_home_page', true)
 			->orderBy('sorting')
 			->limit(6);
+
+		return $query;
 	}
 
 
-	public function scopeOfCategory(Builder $query, Category $category): void
+	public function scopeOfCategory(Builder $query, Category $category): Builder
 	{
 		$query->when($category->exists, function ($query) use ($category) {
 			$query->whereRelation('categories', 'categories.id', $category->id);
 		});
+
+		return $query;
 	}
 
 
-	public function scopeFiltered(Builder $query)
+	public function scopeFiltered(Builder $query): Builder
 	{
-		foreach (filters() as $filter) {
-			$query = $filter->apply($query);
-		}
+
+		app(Pipeline::class)
+			->send($query)
+			->through(filters())
+			->thenReturn();
+
+		return $query;
 	}
 
 
-	public function scopeSorted(Builder $query)
+	public function scopeSorted(Builder $query): Builder
 	{
 		$query->when(request('sort'), function (Builder $query) {
 			$column = request()->str('sort');
@@ -72,14 +81,18 @@ class Product extends Model
 				$query->orderBy((string) $column->remove('-'), $direction);
 			}
 		});
+
+		return $query;
 	}
 
 
-	public function scopeSearched(Builder $query)
+	public function scopeSearched(Builder $query): Builder
 	{
 		$query->when(request('search'), function ($query) {
 			$query->whereFullText(['title', 'text'], request('search'));
 		});
+
+		return $query;
 	}
 
 
@@ -106,3 +119,4 @@ class Product extends Model
 		return 'products';
 	}
 }
+

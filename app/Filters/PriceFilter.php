@@ -7,6 +7,7 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class PriceFilter extends AbstractFilter
 {
+	
 	public function title(): string
 	{
 		return 'Цена';
@@ -19,11 +20,11 @@ class PriceFilter extends AbstractFilter
 	}
 	
 
-	public function apply($query): Builder
+	public function apply(Builder $query): Builder
 	{
-		return $query->when($this->requestValue(), function ($query) {
+		return $query->when($this->requestValue(), function (Builder $query) {
 			$query->whereBetween('price', [
-				$this->requestValue('form', 0) * 100,
+				$this->requestValue('from', 0) * 100,
 				$this->requestValue('to', 100000) * 100,
 			]);
 		});
@@ -43,4 +44,5 @@ class PriceFilter extends AbstractFilter
 	{
 		return 'catalog.filters.price';
 	}
+	
 }
