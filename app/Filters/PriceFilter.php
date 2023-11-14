@@ -2,8 +2,10 @@
 
 namespace App\Filters;
 
+use App\Models\Product;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Builder;
 use Domains\Catalog\Filters\AbstractFilter;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class PriceFilter extends AbstractFilter
 {
@@ -24,8 +26,8 @@ class PriceFilter extends AbstractFilter
 	{
 		return $query->when($this->requestValue(), function (Builder $query) {
 			$query->whereBetween('price', [
-				$this->requestValue('from', 0) * 100,
-				$this->requestValue('to', 100000) * 100,
+				$this->requestValue('min', $this->values()['min']) * 100,
+				$this->requestValue('max', $this->values()['max']) * 100,
 			]);
 		});
 	}
@@ -33,10 +35,12 @@ class PriceFilter extends AbstractFilter
 
 	public function values(): array
 	{
-		return [
-			'from' => 0,
-			'to' => 100000,
-		];
+		return Cache::rememberForever('min_max_price', function () {
+			return [
+				'min' => Product::min('price') / 100,
+				'max' => Product::max('price') / 100,
+			];
+		});
 	}
 
 	

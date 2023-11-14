@@ -6,6 +6,10 @@ use InvalidArgumentException;
 use Stringable;
 use Supports\Traits\Makeable;
 
+
+/**
+ * @method static static make(int $value, string $currency = 'RUB', int $precision = 100)
+ */
 class Price implements Stringable
 {
 	use Makeable;

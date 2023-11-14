@@ -32,10 +32,15 @@ class Product extends Model
 		'sorting',
 	];
 
-
 	protected $casts = [
 		'price' => PriceCast::class,
 	];
+
+
+	protected function thumbnailDir(): string
+	{
+		return 'products';
+	}
 
 
 	public function scopeHomePage(Builder $query): Builder
@@ -43,6 +48,21 @@ class Product extends Model
 		$query->where('on_home_page', true)
 			->orderBy('sorting')
 			->limit(6);
+
+		return $query;
+	}
+
+
+	public function scopeAlso(Builder $query, int $except = null): Builder
+	{
+		$also = session()->get('also');
+
+		$query->whereIn('id', $also)
+			->when($except, function (Builder $query) use ($except) {
+				return $query->whereNot('id', $except);
+			})
+			->inRandomOrder()
+			->limit(4);
 
 		return $query;
 	}
@@ -96,27 +116,27 @@ class Product extends Model
 	}
 
 
-	/**
-	 * @return BelongsTo
-	 */
 	public function brand(): BelongsTo
 	{
 		return $this->belongsTo(Brand::class);
 	}
 
 
-	/**
-	 * @return BelongsToMany
-	 */
 	public function categories(): BelongsToMany
 	{
 		return $this->belongsToMany(Category::class);
 	}
 
 
-	protected function thumbnailDir(): string
+	public function properties(): BelongsToMany
 	{
-		return 'products';
+		return $this->belongsToMany(Property::class)->withPivot('value');
+	}
+
+
+	public function optionValues(): BelongsToMany
+	{
+		return $this->belongsToMany(OptionValue::class);
 	}
 }
 
