@@ -30,6 +30,8 @@ class RefreshCommand extends Command
 			return self::FAILURE;
 		}
 
+		session()->flush();
+
 		$this->call('cache:clear');
 
 		Storage::deleteDirectory('images');

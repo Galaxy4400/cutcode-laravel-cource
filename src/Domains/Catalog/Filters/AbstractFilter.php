@@ -2,8 +2,8 @@
 
 namespace Domains\Catalog\Filters;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Stringable;
+use Illuminate\Database\Eloquent\Builder;
 
 abstract class AbstractFilter implements Stringable
 {

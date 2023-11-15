@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Domains\Catalog\Models\Brand;
 use Illuminate\Contracts\View\View;
 use Domains\Catalog\Models\Category;
 use Illuminate\Contracts\View\Factory;
-
 
 class CatalogController extends Controller
 {

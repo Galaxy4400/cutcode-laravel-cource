@@ -7,6 +7,7 @@ use App\Routing\AppRoutes;
 use App\Routing\AuthRoutes;
 use Illuminate\Http\Request;
 use App\Routing\CatalogRoutes;
+use App\Routing\ProductRoutes;
 use App\Contracts\RouteRegistrar;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Contracts\Routing\Registrar;
@@ -30,6 +31,7 @@ class RouteServiceProvider extends ServiceProvider
 		AppRoutes::class,
 		AuthRoutes::class,
 		CatalogRoutes::class,
+		ProductRoutes::class,
 	];
 
 

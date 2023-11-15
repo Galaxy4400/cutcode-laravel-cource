@@ -3,9 +3,9 @@
 namespace App\Filters;
 
 use Domains\Catalog\Models\Brand;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Builder;
 use Domains\Catalog\Filters\AbstractFilter;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-
 
 class BrandFilter extends AbstractFilter
 {
@@ -28,12 +28,14 @@ class BrandFilter extends AbstractFilter
 
 	public function values(): array
 	{
-		return Brand::query()
-		->select(['id', 'title'])
-		->has('products')
-		->get()
-		->pluck('title', 'id')
-		->toArray();
+		return Cache::rememberForever('brands_filter', function () {
+			return Brand::query()
+				->select(['id', 'title'])
+				->has('products')
+				->get()
+				->pluck('title', 'id')
+				->toArray();
+		});
 	}
 
 	public function view(): string
