@@ -55,11 +55,11 @@ class Product extends Model
 
 	public function scopeAlso(Builder $query, int $except = null): Builder
 	{
-		$also = session()->get('also');
+		$also = session()->get('also') ?: [];
 
 		$query->whereIn('id', $also)
 			->when($except, function (Builder $query) use ($except) {
-				return $query->whereNot('id', $except);
+				return $query->where('id', '!=', $except);
 			})
 			->inRandomOrder()
 			->limit(4);
