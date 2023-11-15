@@ -80,7 +80,6 @@ class Product extends Model
 
 	public function scopeFiltered(Builder $query): Builder
 	{
-
 		app(Pipeline::class)
 			->send($query)
 			->through(filters())
@@ -92,17 +91,7 @@ class Product extends Model
 
 	public function scopeSorted(Builder $query): Builder
 	{
-		$query->when(request('sort'), function (Builder $query) {
-			$column = request()->str('sort');
-
-			if ($column->contains(['price', 'title'])) {
-				$direction = $column->contains('-') ? 'DESC' : 'ASC';
-
-				$query->orderBy((string) $column->remove('-'), $direction);
-			}
-		});
-
-		return $query;
+		return sorter()->run($query);
 	}
 
 

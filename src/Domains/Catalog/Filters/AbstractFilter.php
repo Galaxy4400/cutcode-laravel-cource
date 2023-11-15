@@ -2,6 +2,7 @@
 
 namespace Domains\Catalog\Filters;
 
+use Closure;
 use Stringable;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -18,7 +19,7 @@ abstract class AbstractFilter implements Stringable
 	abstract public function view(): string;
 
 
-	public function __invoke(Builder $query, $next)
+	public function handle(Builder $query, Closure $next)
 	{
 		$this->apply($query);
 
