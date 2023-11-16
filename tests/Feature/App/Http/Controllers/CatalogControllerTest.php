@@ -29,7 +29,7 @@ class CatalogControllerTest extends TestCase
 			],
 		];
 
-		$this->get(action([CatalogController::class], $request))
+		$this->get(action(CatalogController::class, $request))
 			->assertOk()
 			->assertSee($expectedProduct->title)
 			->assertDontSee($products->random()->title);
@@ -53,7 +53,7 @@ class CatalogControllerTest extends TestCase
 			],
 		];
 
-		$this->get(action([CatalogController::class], $request))
+		$this->get(action(CatalogController::class, $request))
 			->assertOk()
 			->assertSee($expectedProduct->title)
 			->assertDontSee($products->random()->title);
@@ -70,7 +70,7 @@ class CatalogControllerTest extends TestCase
 			'sort' => 'title',
 		];
 
-		$this->get(action([CatalogController::class], $request))
+		$this->get(action(CatalogController::class, $request))
 			->assertOk()
 			->assertSeeInOrder(
 				$products->sortBy('title')

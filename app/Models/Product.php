@@ -30,11 +30,26 @@ class Product extends Model
 		'thumbnail',
 		'on_home_page',
 		'sorting',
+		'json_properties',
 	];
 
 	protected $casts = [
 		'price' => PriceCast::class,
+		'json_properties' => 'array',
 	];
+
+
+	public static function boot(): void
+	{
+		parent::boot();
+
+		static::created(function(Product $product) {
+			$properties = $product->properties
+				->mapWithKeys(fn($property) => [$property->title => $property->pivot->value]);
+
+			$product->updateQuietly(['json_properties' => $properties]);
+		});
+	}
 
 
 	protected function thumbnailDir(): string
