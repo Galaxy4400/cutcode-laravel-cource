@@ -4,6 +4,7 @@
 	</a>
 	<div class="grow flex flex-col py-8 px-6">
 		<h3 class="text-sm lg:text-md font-black"><a href="#" class="inline-block text-white hover:text-pink">{{ $item->title }}</a></h3>
+		{{-- TODO Каст из отношений если нет json --}}
 		@if ($item->json_properties)
 			<ul class="space-y-1 mt-4 text-xxs">
 				@foreach ($item->json_properties as $property => $value)

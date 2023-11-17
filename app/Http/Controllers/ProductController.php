@@ -2,22 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\View\ViewModels\ProductViewModel;
 use Domains\Product\Models\Product;
-use Illuminate\Contracts\View\View;
-use Illuminate\Contracts\View\Factory;
+
 
 class ProductController extends Controller
 {
-	public function __invoke(Product $product): View|Factory
+	public function __invoke(Product $product): ProductViewModel
 	{
-		session()->put('also.' . $product->id, $product->id);
-
-		$product->load('optionValues.option');
-
-		return view('product.show', [
-			'product' => $product,
-			'options' => $product->optionValues->keyValues(),
-			'also' => Product::also($product->id)->get()
-		]);
+		return ProductViewModel::make($product)->view('product.show');
 	}
 }

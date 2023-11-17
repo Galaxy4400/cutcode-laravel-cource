@@ -88,5 +88,12 @@ class Product extends Model
 	{
 		return 'products';
 	}
+
+
+	// public function seen(): void
+	// {
+	// 	session()->put('seen.' . $this->id, $this->id);
+	// }
+
 }
 

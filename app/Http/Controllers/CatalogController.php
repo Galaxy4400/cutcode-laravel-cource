@@ -2,29 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use Domains\Product\Models\Product;
-use Illuminate\Contracts\View\View;
+use App\View\ViewModels\CatalogViewModel;
 use Domains\Catalog\Models\Category;
-use Illuminate\Contracts\View\Factory;
 
 class CatalogController extends Controller
 {
-	public function __invoke(?Category $category): View|Factory
+	public function __invoke(?Category $category): CatalogViewModel
 	{
-		$categories = Category::query()
-			->select(['id', 'title', 'slug'])
-			->has('products')
-			->get();
-			
-		$products = Product::query()
-			->select(['id', 'brand_id', 'title', 'slug', 'price', 'thumbnail', 'json_properties'])
-			->ofCategory($category)
-			->searched()
-			->filtered()
-			->sorted()
-			->paginate(6);
-
-		return view('catalog.index', compact('categories', 'products', 'category'));
-
+		return CatalogViewModel::make($category)->view('catalog.index');
 	}
 }

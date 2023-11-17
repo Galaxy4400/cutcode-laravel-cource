@@ -42,9 +42,9 @@ class ProductQueryBuilder extends Builder
 	}
 
 
-	public function also(int $except = null): ProductQueryBuilder
+	public function seen(int $except = null): ProductQueryBuilder
 	{
-		$also = session()->get('also') ?: [];
+		$also = session()->get('seen') ?: [];
 
 		$this->whereIn('id', $also)
 			->when($except, function () use ($except) {
