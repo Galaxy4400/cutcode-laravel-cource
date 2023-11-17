@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Jobs\ProductJsonProperties;
 use Supports\Casts\PriceCast;
 use Domains\Catalog\Models\Brand;
 use Supports\Traits\Models\HasSlug;
@@ -44,10 +45,8 @@ class Product extends Model
 		parent::boot();
 
 		static::created(function(Product $product) {
-			$properties = $product->properties
-				->mapWithKeys(fn($property) => [$property->title => $property->pivot->value]);
-
-			$product->updateQuietly(['json_properties' => $properties]);
+			ProductJsonProperties::dispatch($product)
+				->delay(now()->addSeconds(10));
 		});
 	}
 

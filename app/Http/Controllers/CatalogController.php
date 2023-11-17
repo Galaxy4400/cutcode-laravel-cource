@@ -17,7 +17,7 @@ class CatalogController extends Controller
 			->get();
 			
 		$products = Product::query()
-			->select(['id', 'brand_id', 'title', 'slug', 'price', 'thumbnail'])
+			->select(['id', 'brand_id', 'title', 'slug', 'price', 'thumbnail', 'json_properties'])
 			->ofCategory($category)
 			->searched()
 			->filtered()
