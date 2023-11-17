@@ -1,20 +1,23 @@
 <?php
 
-namespace App\Models;
+namespace Domains\Product\Models;
 
 use App\Jobs\ProductJsonProperties;
 use Supports\Casts\PriceCast;
 use Domains\Catalog\Models\Brand;
 use Supports\Traits\Models\HasSlug;
 use Domains\Catalog\Models\Category;
+use Domains\Product\QueryBuilders\ProductQueryBuilder;
 use Illuminate\Database\Eloquent\Model;
 use Supports\Traits\Models\HasThumbnail;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Pipeline\Pipeline;
 
+
+/**
+ * @method static Product|ProductQueryBuilder query()
+ */
 class Product extends Model
 {
 	use HasFactory;
@@ -51,71 +54,9 @@ class Product extends Model
 	}
 
 
-	protected function thumbnailDir(): string
+	public function newEloquentBuilder($query): ProductQueryBuilder
 	{
-		return 'products';
-	}
-
-
-	public function scopeHomePage(Builder $query): Builder
-	{
-		$query->where('on_home_page', true)
-			->orderBy('sorting')
-			->limit(6);
-
-		return $query;
-	}
-
-
-	public function scopeAlso(Builder $query, int $except = null): Builder
-	{
-		$also = session()->get('also') ?: [];
-
-		$query->whereIn('id', $also)
-			->when($except, function (Builder $query) use ($except) {
-				return $query->where('id', '!=', $except);
-			})
-			->inRandomOrder()
-			->limit(4);
-
-		return $query;
-	}
-
-
-	public function scopeOfCategory(Builder $query, Category $category): Builder
-	{
-		$query->when($category->exists, function ($query) use ($category) {
-			$query->whereRelation('categories', 'categories.id', $category->id);
-		});
-
-		return $query;
-	}
-
-
-	public function scopeFiltered(Builder $query): Builder
-	{
-		app(Pipeline::class)
-			->send($query)
-			->through(filters())
-			->thenReturn();
-
-		return $query;
-	}
-
-
-	public function scopeSorted(Builder $query): Builder
-	{
-		return sorter()->run($query);
-	}
-
-
-	public function scopeSearched(Builder $query): Builder
-	{
-		$query->when(request('search'), function ($query) {
-			$query->whereFullText(['title', 'text'], request('search'));
-		});
-
-		return $query;
+		return new ProductQueryBuilder($query);
 	}
 
 
@@ -140,6 +81,12 @@ class Product extends Model
 	public function optionValues(): BelongsToMany
 	{
 		return $this->belongsToMany(OptionValue::class);
+	}
+
+	
+	protected function thumbnailDir(): string
+	{
+		return 'products';
 	}
 }
 

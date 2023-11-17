@@ -1,10 +1,10 @@
 <?php
 
-use App\Models\OptionValue;
-use App\Models\Product;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
+use Domains\Product\Models\Product;
 use Illuminate\Support\Facades\Schema;
+use Domains\Product\Models\OptionValue;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {

@@ -2,7 +2,8 @@
 
 namespace Database\Factories;
 
-use App\Models\Option;
+use Domains\Product\Models\Option;
+use Domains\Product\Models\OptionValue;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class OptionValueFactory extends Factory
 {
+	protected $model = OptionValue::class;
+
 	/**
 	 * Define the model's default state.
 	 *

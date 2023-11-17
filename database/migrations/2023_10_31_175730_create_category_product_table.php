@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Product;
+use Domains\Product\Models\Product;
 use Domains\Catalog\Models\Category;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;

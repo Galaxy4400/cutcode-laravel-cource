@@ -2,7 +2,7 @@
 
 namespace App\Filters;
 
-use App\Models\Product;
+use Domains\Product\Models\Product;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Builder;
 use Domains\Catalog\Filters\AbstractFilter;

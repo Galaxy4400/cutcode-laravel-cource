@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
+use Domains\Product\Models\Product;
 use Illuminate\Contracts\View\View;
 use Domains\Catalog\Models\Category;
 use Illuminate\Contracts\View\Factory;

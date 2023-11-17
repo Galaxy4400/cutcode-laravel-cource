@@ -4,11 +4,13 @@
 	</a>
 	<div class="grow flex flex-col py-8 px-6">
 		<h3 class="text-sm lg:text-md font-black"><a href="#" class="inline-block text-white hover:text-pink">{{ $item->title }}</a></h3>
-		<ul class="space-y-1 mt-4 text-xxs">
-			@foreach ($item->json_properties as $property => $value)
-				<li class="flex justify-between text-body"><strong class="text-white">{{ $property }}:</strong> {{ $value }}</li>
-			@endforeach
-		</ul>
+		@if ($item->json_properties)
+			<ul class="space-y-1 mt-4 text-xxs">
+				@foreach ($item->json_properties as $property => $value)
+					<li class="flex justify-between text-body"><strong class="text-white">{{ $property }}:</strong> {{ $value }}</li>
+				@endforeach
+			</ul>
+		@endif
 		<div class="mt-auto pt-6">
 			<div class="mb-3 text-sm font-semibold">{{ $item->price }}</div>
 			<div class="flex flex-wrap items-center gap-4">

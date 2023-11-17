@@ -21,9 +21,7 @@ abstract class AbstractFilter implements Stringable
 
 	public function handle(Builder $query, Closure $next)
 	{
-		$this->apply($query);
-
-		$next($query);
+		return $next($this->apply($query));
 	}
 
 

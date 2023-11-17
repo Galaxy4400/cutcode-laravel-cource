@@ -4,13 +4,14 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-use App\Models\Product;
-use Database\Factories\BrandFactory;
-use Database\Factories\CategoryFactory;
-use Database\Factories\OptionFactory;
-use Database\Factories\OptionValueFactory;
-use Database\Factories\PropertyFactory;
 use Illuminate\Database\Seeder;
+use Domains\Product\Models\Product;
+use Database\Factories\BrandFactory;
+use Database\Factories\OptionFactory;
+use Database\Factories\CategoryFactory;
+use Database\Factories\PropertyFactory;
+use Database\Factories\OptionValueFactory;
+use Database\Factories\ProductFactory;
 
 class DatabaseSeeder extends Seeder
 {
@@ -27,7 +28,8 @@ class DatabaseSeeder extends Seeder
 		$optionValues = OptionValueFactory::new()->count(10)->create();
 
 
-		Product::factory(20)
+		ProductFactory::new()
+			->count(20)
 			->hasAttached($optionValues)
 			->hasAttached($properties, function () {
 				return ['value' => ucfirst(fake()->word())];
