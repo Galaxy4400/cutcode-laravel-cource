@@ -5,6 +5,7 @@ namespace App\Providers;
 use RuntimeException;
 use App\Routing\AppRoutes;
 use App\Routing\AuthRoutes;
+use App\Routing\CartRoutes;
 use Illuminate\Http\Request;
 use App\Routing\CatalogRoutes;
 use App\Routing\ProductRoutes;
@@ -32,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
 		AuthRoutes::class,
 		CatalogRoutes::class,
 		ProductRoutes::class,
+		CartRoutes::class,
 	];
 
 
