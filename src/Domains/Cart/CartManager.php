@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Domains\Cart\Contracts\CartIdentityStorageContract;
 use Domains\Cart\Models\CartItem;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Supports\ValueObjects\Price;
 
@@ -17,6 +18,20 @@ class CartManager
 	public function __construct(
 		protected CartIdentityStorageContract $identityStorage,
 	) {
+	}
+
+
+	private function cacheKey(): string
+	{
+		return str('cart_'.$this->identityStorage->get())
+			->slug('_')
+			->value();
+	}
+
+
+	private function forgetCache(): void
+	{
+		Cache::forget($this->cacheKey());
 	}
 
 
@@ -61,6 +76,8 @@ class CartManager
 
 		$cartItem->optionValues()->sync($optionValues);
 
+		$this->forgetCache();
+
 		return $cart;
 	}
 
@@ -68,18 +85,37 @@ class CartManager
 	public function quantity(CartItem $item, int $quantity = 1): void
 	{
 		$item->update(['quantity' => $quantity]);
+
+		$this->forgetCache();
 	}
 
 
 	public function delete(CartItem $item): void
 	{
 		$item->delete();
+
+		$this->forgetCache();
 	}
 
 
-	public function trancate(): void
+	public function truncate(): void
 	{
 		$this->get()?->delete();
+
+		$this->forgetCache();
+	}
+
+
+	public function items(): Collection
+	{
+		if (!$this->get()) {
+			return collect([]);
+		}
+
+		return CartItem::query()
+			->with(['product', 'optionValues.option'])
+			->whereBelongsTo($this->get())
+			->get();
 	}
 
 
@@ -103,15 +139,15 @@ class CartManager
 	}
 
 
-	public function get(): Model|Builder
+	public function get(): Model|Builder|false
 	{
-		return Cart::query()
+		return Cache::remember($this->cacheKey(), now()->addHour(), function () {
+			return Cart::query()
 			->with('cartItems')
 			->where('storage_id', $this->identityStorage->get())
-			->when(auth()->check(), fn(Builder $query) => 
-				$query->orWhere('user_id', auth()->id())
-			)
-			->first();
+			->when(auth()->check(), fn(Builder $query) => $query->orWhere('user_id', auth()->id()))
+			->first() ?? false;
+		});
 	}
 
 }

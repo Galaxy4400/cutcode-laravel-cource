@@ -22,7 +22,7 @@ class CartItem extends Model
 		'product_id',
 		'price',
 		'quantity',
-		'string_option_values',
+		'options',
 	];
 
 	protected $casts = [
