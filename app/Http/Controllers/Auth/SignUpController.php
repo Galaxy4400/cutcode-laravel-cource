@@ -17,6 +17,7 @@ class SignUpController extends Controller
 		return view('auth.sign-up');
 	}
 
+	
 	public function handle(SignUpFormRequest $request, RegisterNewUserContract $registerNewUserAction): RedirectResponse
 	{
 		$user = $registerNewUserAction(NewUserDTO::fromRequest($request));
@@ -27,6 +28,5 @@ class SignUpController extends Controller
 
 		return redirect()->intended(route('home'));
 	}
-
 
 }
