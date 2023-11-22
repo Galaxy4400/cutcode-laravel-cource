@@ -115,7 +115,9 @@ class CartManager
 
 	public function truncate(): void
 	{
-		$this->get()?->delete();
+		if ($this->get()) {
+			$this->get()->delete();
+		}
 
 		$this->forgetCache();
 	}
@@ -136,7 +138,11 @@ class CartManager
 
 	public function cartItems(): Collection
 	{
-		return $this->get()?->cartItems ?? collect([]);
+		if ($this->get()) {
+			return $this->get()->cartItems;
+		}
+
+		return collect([]);
 	}
 
 

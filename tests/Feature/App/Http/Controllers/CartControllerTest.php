@@ -5,6 +5,7 @@ namespace Tests\Feature\App\Http\Controllers;
 use App\Http\Controllers\CartController;
 use Database\Factories\ProductFactory;
 use Domains\Cart\CartManager;
+use Domains\Cart\Models\CartItem;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -19,6 +20,16 @@ class CartControllerTest extends TestCase
 		parent::setUp();
 
 		CartManager::fake();
+	}
+
+
+	public function createCartItem(): CartItem
+	{
+		$product = ProductFactory::new()->createOne();
+
+		cart()->add($product);
+
+		return cart()->items()->first();
 	}
 
 
@@ -58,29 +69,39 @@ class CartControllerTest extends TestCase
 
 	public function test_cart_quantity_success(): void
 	{
-		$product = ProductFactory::new()->createOne();
+		$cartItem = $this->createCartItem();
 
-		cart()->add($product, 2);
+		$this->assertEquals(1, cart()->count());
 
-		$this->assertEquals(2, cart()->count());
-
-		$this->post(action([CartController::class, 'quantity'], cart()->items()->first()), ['quantity' => 3]);
+		$this->post(action([CartController::class, 'quantity'], $cartItem), ['quantity' => 3]);
 
 		$this->assertEquals(3, cart()->count());
 	}
 
 
-	// public function test_cart_delete_success(): void
-	// {
-	// 	$product = ProductFactory::new()->createOne();
+	public function test_cart_delete_success(): void
+	{
+		$cartItem = $this->createCartItem();
 
-	// 	cart()->add($product, 2);
+		$this->assertEquals(1, cart()->count());
 
-	// 	$this->assertEquals(2, cart()->count());
+		$this->delete(action([CartController::class, 'delete'], $cartItem));
 
-	// 	$this->post(action([CartController::class, 'delete'], cart()->items()->first()), ['quantity' => 3]);
+		$this->assertEquals(0, cart()->count());
+	}
 
-	// 	$this->assertEquals(3, cart()->count());
-	// }
+
+	public function test_cart_truncate_success(): void
+	{
+		$this->createCartItem();
+
+		$this->assertEquals(1, cart()->count());
+
+		$this->delete(action([CartController::class, 'truncate']));
+
+		$this->assertEquals(0, cart()->count());
+	}
 
 }
+
+
