@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use Domains\Auth\Models\User;
+use Supports\SessionRegenerator;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Laravel\Socialite\Facades\Socialite;
@@ -26,17 +27,17 @@ class SocialAuthController extends Controller
 			throw new \DomainException('The driver is not supported!');
 		}
 
-		$githubUser = Socialite::driver($driver)->user();
+		$driverUser = Socialite::driver($driver)->user();
 
 		$user = User::updateOrCreate([
-			$driver . '_id' => $githubUser->getId(),
+			$driver . '_id' => $driverUser->getId(),
 		], [
-			'name' => $githubUser->getName(),
-			'email' => $githubUser->getEmail(),
+			'name' => $driverUser->getName(),
+			'email' => $driverUser->getEmail(),
 			'password' => bcrypt(str()->random(20)),
 		]);
 
-		auth()->login($user);
+		SessionRegenerator::run(fn() => auth()->login($user));
 
 		return redirect()->intended(route('home'));
 	}

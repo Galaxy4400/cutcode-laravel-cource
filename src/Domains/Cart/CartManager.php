@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Domains\Cart\Contracts\CartIdentityStorageContract;
 use Domains\Cart\Models\CartItem;
+use Domains\Cart\StorageIdentities\FakeIdentityStorage;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +19,12 @@ class CartManager
 	public function __construct(
 		protected CartIdentityStorageContract $identityStorage,
 	) {
+	}
+
+
+	public static function fake(): void
+	{
+		app()->bind(CartIdentityStorageContract::class, FakeIdentityStorage::class);
 	}
 
 
@@ -54,6 +61,14 @@ class CartManager
 		sort($optionValues);
 
 		return implode(';', $optionValues);
+	}
+
+
+	public function updateStorageIdentity(string $old, string $current): void
+	{
+		Cart::query()
+			->where('storage_id', $old)
+			->update($this->storedData($current));
 	}
 
 

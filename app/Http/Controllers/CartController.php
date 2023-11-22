@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Domains\Product\Models\Product;
 use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
