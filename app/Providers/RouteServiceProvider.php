@@ -6,6 +6,7 @@ use RuntimeException;
 use App\Routing\AppRoutes;
 use App\Routing\AuthRoutes;
 use App\Routing\CartRoutes;
+use App\Routing\OrderRoutes;
 use Illuminate\Http\Request;
 use App\Routing\CatalogRoutes;
 use App\Routing\ProductRoutes;
@@ -34,6 +35,7 @@ class RouteServiceProvider extends ServiceProvider
 		CatalogRoutes::class,
 		ProductRoutes::class,
 		CartRoutes::class,
+		OrderRoutes::class,
 	];
 
 
