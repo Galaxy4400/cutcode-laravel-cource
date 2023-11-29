@@ -17,9 +17,9 @@ class OrderController extends Controller
 		}
 
 		return view('order.index', [
-			'item' => $items,
-			'payment' => PaymentMethod::query()->get(),
-			'payment' => DeliveryType::query()->get(),
+			'items' => $items,
+			'payments' => PaymentMethod::query()->get(),
+			'deliveries' => DeliveryType::query()->get(),
 		]);
 	}
 

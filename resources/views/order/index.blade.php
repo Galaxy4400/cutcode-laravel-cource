@@ -133,10 +133,8 @@
 											@if ($item->optionValues->isNotEmpty())
 												<ul>
 													@foreach ($item->optionValues as $value)
-															
+														<li class="text-body">{{ $value->option->title }}: {{ $value->title }}</li>
 													@endforeach
-													<li class="text-body">{{ $value->option->title }}: {{ $value->title }}</li>
-													<li class="text-body">Размер (хват): Средний</li>
 												</ul>
 											@endif
 										</td>
