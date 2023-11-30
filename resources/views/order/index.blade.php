@@ -34,13 +34,13 @@
 								<x-forms.error>{{ $message }}</x-forms.error>
 							@enderror
 
-							<x-forms.text-input name="customer[phone]" type="text" value="{{ old('customer.phone') }}" placeholder="Номер телефона" :isError="$errors->has('customer.phone')" />
-							@error('customer.phone')
+							<x-forms.text-input name="customer[email]" type="email" value="{{ old('customer.email') }}" placeholder="E-mail" :isError="$errors->has('customer.email')" />
+							@error('customer.email')
 								<x-forms.error>{{ $message }}</x-forms.error>
 							@enderror
 
-							<x-forms.text-input name="customer[email]" type="email" value="{{ old('customer.email') }}" placeholder="E-mail" :isError="$errors->has('customer.email')" />
-							@error('customer.email')
+							<x-forms.text-input name="customer[phone]" type="text" value="{{ old('customer.phone') }}" placeholder="Номер телефона" :isError="$errors->has('customer.phone')" />
+							@error('customer.phone')
 								<x-forms.error>{{ $message }}</x-forms.error>
 							@enderror
 
@@ -79,7 +79,7 @@
 								@foreach ($deliveries as $delivery)
 									<div class="space-y-3">
 										<div class="form-radio">
-											<input name="delivery_type_id" type="radio" value="{{ $delivery->id }}" id="delivery-method-address-{{ $delivery->id }}">
+											<input name="delivery_type_id" type="radio" value="{{ $delivery->id }}" id="delivery-method-address-{{ $delivery->id }}" @checked($loop->first || (int) old('delivery_type_id') === $delivery->id)>
 											<label for="delivery-method-address-{{ $delivery->id }}" class="form-radio-label">{{ $delivery->title }}</label>
 										</div>
 									</div>
@@ -90,7 +90,7 @@
 											<x-forms.error>{{ $message }}</x-forms.error>
 										@enderror
 
-										<x-forms.text-input name="customer['address']" type="text" value="{{ old('customer.address') }}" placeholder="Город" :isError="$errors->has('customer.address')" />
+										<x-forms.text-input name="customer['address']" type="text" value="{{ old('customer.address') }}" placeholder="Адрес" :isError="$errors->has('customer.address')" />
 										@error('customer.address')
 											<x-forms.error>{{ $message }}</x-forms.error>
 										@enderror
@@ -107,7 +107,7 @@
 							<div class="space-y-5">
 								@foreach ($payments as $payment)
 									<div class="form-radio">
-										<input name="payment-method_id" type="radio" id="payment-method-{{ $payment->id }}" @checked($loop->first || old('payment_method_id') === $payment->id)>
+										<input name="payment_method_id" type="radio" value="{{ $payment->id }}" id="payment-method-{{ $payment->id }}" @checked($loop->first || (int) old('payment_method_id') === $payment->id)>
 										<label for="payment-method-{{ $payment->id }}" class="form-radio-label">{{ $payment->title }}</label>
 									</div>
 								@endforeach
