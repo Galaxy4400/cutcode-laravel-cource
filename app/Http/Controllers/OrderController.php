@@ -7,6 +7,7 @@ use DomainException;
 use Domains\Order\Actions\NewOrderAction;
 use Domains\Order\Models\DeliveryType;
 use Domains\Order\Models\PaymentMethod;
+use Domains\Order\Processes\OrderProcess;
 
 class OrderController extends Controller
 {
@@ -29,6 +30,10 @@ class OrderController extends Controller
 	public function handle(OrderFormRequest $request, NewOrderAction $action)
 	{
 		$order = $action($request);
+
+		(new OrderProcess($order))->processes([
+
+		])->run();
 
 		return redirect()->route('home');
 	}
