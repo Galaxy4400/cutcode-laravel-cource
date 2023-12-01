@@ -42,7 +42,7 @@ class OrderProcess
 			},
 
 			onSuccess: function (Order $order) {
-				flash()->info('Good # ' . $order->id);
+				flash()->info("Заказ № {$order->id} оформлен");
 				
 				event(new OrderCreated($order));
 			},
