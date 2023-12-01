@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Events;
+namespace Domains\Order\Events;
 
 use Domains\Order\Models\Order;
 use Domains\Order\States\OrderState;

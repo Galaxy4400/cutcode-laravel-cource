@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\OrderFormRequest;
 use DomainException;
-use Domains\Order\Actions\NewOrderAction;
 use Domains\Order\Models\DeliveryType;
+use Domains\Order\Processes\ClearCart;
+use App\Http\Requests\OrderFormRequest;
 use Domains\Order\Models\PaymentMethod;
+use Domains\Order\Actions\NewOrderAction;
+use Domains\Order\Processes\OrderProcess;
 use Domains\Order\Processes\AssignCustomer;
 use Domains\Order\Processes\AssignProducts;
 use Domains\Order\Processes\ChangeStateToPending;
 use Domains\Order\Processes\CheckProductQuantities;
-use Domains\Order\Processes\ClearCart;
 use Domains\Order\Processes\DecreaseProductsQuantities;
-use Domains\Order\Processes\OrderProcess;
 
 class OrderController extends Controller
 {

@@ -2,9 +2,10 @@
 
 namespace Domains\Order\States;
 
-use App\Events\OrderStatusChanged;
-use Domains\Order\Models\Order;
 use InvalidArgumentException;
+use Domains\Order\Models\Order;
+use Domains\Order\Events\OrderStatusChanged;
+
 
 abstract class OrderState
 {

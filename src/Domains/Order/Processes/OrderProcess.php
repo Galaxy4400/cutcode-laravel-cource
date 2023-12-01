@@ -2,12 +2,14 @@
 
 namespace Domains\Order\Processes;
 
+use Throwable;
 use DomainException;
-use Domains\Order\Events\OrderCreated;
+use Supports\Transaction;
 use Domains\Order\Models\Order;
 use Illuminate\Pipeline\Pipeline;
-use Supports\Transaction;
-use Throwable;
+use Domains\Order\Events\OrderCreated;
+use Domains\Order\Exceptions\OrderProcessException;
+
 
 class OrderProcess
 {
@@ -46,12 +48,10 @@ class OrderProcess
 			},
 
 			onFail: function (Throwable $exception) {
-				throw new DomainException(app()->isProduction()
-					? "Что-то пошло не так. Обратитесь в техподдержку"
-					: $exception->getMessage()
-				);
+				app()->isProduction() 
+					? throw new DomainException("Что-то пошло не так. Обратитесь в техподдержку") 
+					: throw new OrderProcessException($exception);
 			}
-
 		);
 	}
 }

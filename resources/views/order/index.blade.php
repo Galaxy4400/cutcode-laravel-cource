@@ -85,12 +85,12 @@
 									</div>
 
 									@if ($delivery->with_address)
-										<x-forms.text-input name="customer['city']" type="text" value="{{ old('customer.city') }}" placeholder="Город" :isError="$errors->has('customer.city')" />
+										<x-forms.text-input name="customer[city]" type="text" value="{{ old('customer.city') }}" placeholder="Город" :isError="$errors->has('customer.city')" />
 										@error('customer.city')
 											<x-forms.error>{{ $message }}</x-forms.error>
 										@enderror
 
-										<x-forms.text-input name="customer['address']" type="text" value="{{ old('customer.address') }}" placeholder="Адрес" :isError="$errors->has('customer.address')" />
+										<x-forms.text-input name="customer[address]" type="text" value="{{ old('customer.address') }}" placeholder="Адрес" :isError="$errors->has('customer.address')" />
 										@error('customer.address')
 											<x-forms.error>{{ $message }}</x-forms.error>
 										@enderror
