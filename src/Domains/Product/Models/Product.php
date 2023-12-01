@@ -31,6 +31,7 @@ class Product extends Model
 		'text',
 		'brand_id',
 		'price',
+		'quantity',
 		'thumbnail',
 		'on_home_page',
 		'sorting',

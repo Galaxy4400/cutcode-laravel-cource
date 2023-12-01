@@ -19,5 +19,4 @@ class OrderCustomer extends Model
 		'address',
 		'city',
 	];
-
 }

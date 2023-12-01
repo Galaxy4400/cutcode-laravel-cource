@@ -11,7 +11,7 @@ class Transaction
 	public static function run(Closure $process, Closure $onSuccess = null, Closure $onFail = null)
 	{
 		try {
-			DB::transaction();
+			DB::beginTransaction();
 
 			return tap($process(), function ($result) use ($onSuccess) {
 				if (!is_null($onSuccess)) {

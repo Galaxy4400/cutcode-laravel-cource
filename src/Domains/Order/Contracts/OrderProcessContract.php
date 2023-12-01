@@ -7,5 +7,5 @@ use Domains\Order\Models\Order;
 
 interface OrderProcessContract
 {
-	public function handle(Order $order, Closure $next);
+	public function handle(Order $order, Closure $next): Closure;
 }
