@@ -9,6 +9,7 @@ class OrderServiceProvider extends ServiceProvider
 	public function register(): void
 	{
 		$this->app->register(ActionsServiceProvider::class);
+		$this->app->register(PaymentServiceProvider::class);
 	}
 
 	public function boot(): void
