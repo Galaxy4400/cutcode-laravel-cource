@@ -18,7 +18,7 @@ class PaymentServiceProvider extends ServiceProvider
 
 	public function boot(): void
 	{
-		PaymentSystem::provider(new YooKassa());
+		PaymentSystem::provider(new YooKassa(config('payment.providers.yookassa')));
 
 		PaymentSystem::onCreating(function (PaymentData $paymentData) {
 			return $paymentData;
