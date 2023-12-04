@@ -8,6 +8,8 @@ use Domains\Order\Processes\ClearCart;
 use App\Http\Requests\OrderFormRequest;
 use Domains\Order\Models\PaymentMethod;
 use Domains\Order\Actions\NewOrderAction;
+use Domains\Order\DTOs\OrderCustomerDTO;
+use Domains\Order\DTOs\OrderDTO;
 use Domains\Order\Processes\OrderProcess;
 use Domains\Order\Processes\AssignCustomer;
 use Domains\Order\Processes\AssignProducts;
@@ -36,11 +38,15 @@ class OrderController extends Controller
 	// TODO: Сделать DTO, сделать абстракцию для экшена
 	public function handle(OrderFormRequest $request, NewOrderAction $newOrderAction)
 	{
-		$order = $newOrderAction($request);
+		$order = $newOrderAction(
+			OrderDTO::make($request->only(['payment_method_id', 'delivery_type_id', 'password'])),
+			OrderCustomerDTO::fromArray($request->get('customer')),
+			$request->boolean('create_account'),
+		);
 
 		(new OrderProcess($order))->processes([
 			new CheckProductQuantities(),
-			new AssignCustomer(request('customer')),
+			new AssignCustomer(OrderCustomerDTO::fromArray($request->get('customer'))),
 			new AssignProducts(),
 			new ChangeStateToPending(),
 			new DecreaseProductsQuantities(),

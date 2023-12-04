@@ -4,13 +4,13 @@ namespace Domains\Order\Processes;
 
 use Domains\Order\Models\Order;
 use Domains\Order\Contracts\OrderProcessContract;
+use Domains\Order\DTOs\OrderCustomerDTO;
 
 class AssignCustomer implements OrderProcessContract
 {
 
-	// TODO: Лучше сделать DTO
 	public function __construct(
-		protected array $customerData,
+		protected OrderCustomerDTO $customer,
 	) {
 	}
 
@@ -18,7 +18,7 @@ class AssignCustomer implements OrderProcessContract
 	public function handle(Order $order, $next)
 	{
 		$order->orderCustomer()
-			->create($this->customerData);
+			->create($this->customer->toArray());
 
 		return $next($order);
 	}
